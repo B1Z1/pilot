@@ -1,0 +1,16 @@
+<button #buttonElement
+        (click)="onButtonClick()"
+        class="welcome-page__button">
+  {{isActivated ? 'Turn off' : 'Activate' }}
+</button>
+<div class="welcome-page__adress-input-wrapper">
+  <input #inputElement
+         [(ngModel)]="pilotAddress"
+         class="welcome-page__address-input"
+         type="text"
+         placeholder="Write your ip address">
+</div>
+<div *ngIf="pilotAddress"
+     class="welcome-page__current-address">
+  {{pilotAddress + ':3000'}}
+</div>
