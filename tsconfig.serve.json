@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "module": "CommonJS",
+    "noImplicitAny": false,
     "sourceMap": true,
-    "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
     "types": [
       "node"
     ],
@@ -18,6 +19,9 @@
   },
   "files": [
     "main.ts"
+  ],
+  "include": [
+    "server/**/*"
   ],
   "exclude": [
     "node_modules",

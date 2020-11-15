@@ -1,6 +1,7 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, ipcMain, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { setupServer, stopServer } from './server/web-server/webServer';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -19,10 +20,10 @@ function createWindow(): BrowserWindow {
     height: size.height,
     webPreferences: {
       nodeIntegration: true,
-      allowRunningInsecureContent: (serve) ? true : false,
+      allowRunningInsecureContent: !!serve,
       contextIsolation: false,  // false if you want to run 2e2 test with Spectron
-      enableRemoteModule : true // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
-    },
+      enableRemoteModule: true // true if you want to run 2e2 test  with Spectron or use remote module in renderer context (ie. Angular)
+    }
   });
 
   if (serve) {
@@ -30,7 +31,7 @@ function createWindow(): BrowserWindow {
     win.webContents.openDevTools();
 
     require('electron-reload')(__dirname, {
-      electron: require(`${__dirname}/node_modules/electron`)
+      electron: require(`${ __dirname }/node_modules/electron`)
     });
     win.loadURL('http://localhost:4200');
 
@@ -75,6 +76,16 @@ try {
     if (win === null) {
       createWindow();
     }
+  });
+
+  ipcMain.on('turnon', (event, arg) => {
+    setupServer(arg);
+    event.returnValue = 'ok';
+  });
+
+  ipcMain.on('turnoff', (event) => {
+    stopServer();
+    event.returnValue = 'ok';
   });
 
 } catch (e) {

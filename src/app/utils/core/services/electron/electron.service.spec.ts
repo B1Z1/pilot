@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ElectronService } from './electron.service';
+import { ElectronService } from 'app/utils/core/services/electron/electron.service';
 
 describe('ElectronService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
